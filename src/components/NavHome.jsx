@@ -1,7 +1,15 @@
 import react from "react"
 import logo from "../assets/logo.svg"
+import {useNavigate} from "react-router-dom"
 
 const Nav = () => {
+
+    const navigate = useNavigate()
+
+    const navigateToJob = () => {
+        navigate("/job")
+    }
+
     return (
         <div className="h-16 flex justify-between z-1000">
             <div className="flex">
@@ -10,7 +18,7 @@ const Nav = () => {
                 </a>
 
                 <div class="flex gap-8 my-auto mx-8 font-bold">
-                    <a href="#" class="cursor-pointer transition-colors duration-300 hover:text-blue-600">
+                    <a onClick={navigateToJob} class="cursor-pointer transition-colors duration-300 hover:text-blue-600">
                         <h2>Find Jobs</h2>
                     </a>
                     <a href="#" class="cursor-pointer transition-colors duration-300 hover:text-blue-600">
