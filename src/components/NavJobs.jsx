@@ -1,5 +1,6 @@
 import react from "react"
 import logo from "../assets/logo.svg"
+import {useNavigate} from "react-router-dom"
 
 const NavJobs = (props) => {
     const active = props.active
@@ -11,10 +12,18 @@ const NavJobs = (props) => {
     else if (active === "companies") {
         Companyclasses = " cursor-pointer text-blue-600"
     }
+
+    const navigate = useNavigate();
+
+    const navigateToHome = () => {
+        navigate("/");
+    }
+
+    
     return (
         <div className="h-16 flex justify-between z-1000 border px-4 md:px-36">
             <div className="flex">
-                <a className="my-auto">
+                <a className="my-auto" onClick={navigateToHome}>
                     <img src={logo} alt="wizwork" className="h-12"/>
                 </a>
 

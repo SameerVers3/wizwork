@@ -9,14 +9,18 @@ import HomeHero from './components/Home/HomeHero'
 import Home from './components/Home'
 import Footer from "./components/Footer"
 import Job from "./components/Job"
+import SideDoc from "./components/portal/SideDoc"
 
+import Signup from './components/Signup'
 
 function App() {
     return (
         <Router>
             <Routes>
                 <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup/>}/>
                 <Route path="/job" element={<Job />} />
+                <Route path="/sidedoc" element={<SideDoc />} />
                 <Route path="/" element={<Home />} />
             </Routes>
             <Footer/>

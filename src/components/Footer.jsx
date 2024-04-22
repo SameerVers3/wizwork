@@ -1,8 +1,52 @@
-import react from "react"
+import react, {useState} from "react"
 import bg from "../assets/logo.svg"
-
+import Snackbar from '@mui/material/Snackbar';
 
 const Footer = () => {
+
+    const [newsletter, setNewsletter] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const handleSubscribe = async (e) => {
+        try {
+            e.preventDefault();
+            setLoading(true);
+            const response = await fetch("http://localhost:3000/newsletter/subscribe", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email: newsletter})
+            });
+            const data = await response.json();
+
+
+            if(data.success) {
+                setOpen(true);
+                setNewsletter("");
+                setMessage(data.message);
+            }
+            else {
+                setOpen(true);
+                setMessage(data.message);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            setLoading(false);
+        }
+        finally {
+            setLoading(false);
+            setOpen(true);
+            setNewsletter("");
+        }
+    }
+
+    const handleChange = (e) => {
+        setNewsletter(e.target.value);
+    }
 
     const links = [
         {
@@ -46,8 +90,8 @@ const Footer = () => {
                 <h3 className="text-purple-400 font-bold text-2xl">Get Job Notifications</h3>
                 <p>Subscribe to our newsletter to get the latest job updates</p>
                 <div className="flex gap-2">
-                    <input type="email" placeholder="Enter your email" class=" text-purple-900 font-bold p-3 rounded-md focus:outline-none border-none" />
-                    <button className="bg-purple-700 p-2 rounded-md hover:bg-purple-800">Subscribe</button>
+                    <input type="email" value={newsletter} onChange={handleChange} placeholder="Enter your email" class=" text-purple-900 font-bold p-3 rounded-md focus:outline-none border-none" />
+                    <button className="bg-purple-700 p-2 rounded-md hover:bg-purple-800" onClick={handleSubscribe}>{loading ? "Subscribing ... " : "Subscribe"}</button>
                 </div>
             </div>
          </div>
@@ -62,6 +106,12 @@ const Footer = () => {
                     <a href="#" className="hover:underline">Terms of Service</a>
                 </div>
             </div>
+            <Snackbar
+                open={open}
+                autoHideDuration={1500}
+                onClose={() => setOpen(false)}
+                message="Thanks for subscribing!"
+            />
         </div>
     )
 }

@@ -7,14 +7,18 @@ const Nav = () => {
     const navigate = useNavigate()
 
     const navigateToJob = () => {
-        navigate("/job")
+        navigate("/job");
+    }
+
+    const navigateToHome = () => {
+        navigate("/");
     }
 
     return (
         <div className="h-16 flex justify-between z-1000">
             <div className="flex">
-                <a className="my-auto">
-                    <img src={logo} alt="wizwork" className="h-12"/>
+                <a className="my-auto" onClick={navigateToHome} >
+                    <img src={logo} alt="wizwork" className="h-12 cursor-pointer"/>
                 </a>
 
                 <div class="flex gap-8 my-auto mx-8 font-bold">
