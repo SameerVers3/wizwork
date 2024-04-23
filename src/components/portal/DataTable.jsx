@@ -6,19 +6,12 @@ const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
   { field: 'fullName', headerName: 'Full Name', width: 130 },
   { field: 'hiringStage', headerName: 'Hiring Stage', width: 130 },
-  {
-    field: 'appliedDate',
-    headerName: 'Applied Date',
-    width: 130,
-  },
-  {
     // field: 'fullName',
     // headerName: 'Full name',
     // description: 'This column has a value getter and is not sortable.',
     // sortable: false,
     // width: 160,
     // valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
-  },
 ];
 
 const rows = [
