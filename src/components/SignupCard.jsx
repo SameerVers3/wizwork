@@ -123,7 +123,7 @@ const SignUpCard = () => {
                 }
             } catch (error) {
                 console.error('Error:', error)
-                errMsg = "An error occurred. Please try again later."
+                setErrMsg("An error occurred. Please try again later")
                 showSnackbar(true)
             }
         }
