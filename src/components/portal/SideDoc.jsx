@@ -138,7 +138,7 @@ const SideDoc = () => {
                 </div>
             </div>
 
-            <div className="">
+            <div className="w-full">
                 {
                     docMenu.map((item, i) => {
                         if (item.active) {
