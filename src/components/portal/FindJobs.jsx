@@ -6,7 +6,7 @@ import Search from "../portal/Search";
 const FindJobs = () => {
     return (
         <div className="">
-            <div className="p-8 font-bold text-xl font-['Anek Odia']">
+            <div className="p-8 font-bold text-xl font-['Anek Odia'] border-y mb-8">
                 FIND JOBS
             </div>
             {/* <JobSearch/> */}
