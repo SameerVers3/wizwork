@@ -2,6 +2,9 @@ import react, {useState} from "react"
 import bg from "../assets/logo.svg"
 import Snackbar from '@mui/material/Snackbar';
 
+const baseURL = import.meta.env.VITE_BACKEND_URL
+
+
 const Footer = () => {
 
     const [newsletter, setNewsletter] = useState("");
@@ -13,7 +16,7 @@ const Footer = () => {
         try {
             e.preventDefault();
             setLoading(true);
-            const response = await fetch("http://localhost:3000/newsletter/subscribe", {
+            const response = await fetch(baseURL + "/newsletter/subscribe", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

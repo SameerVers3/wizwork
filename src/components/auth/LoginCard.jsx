@@ -1,4 +1,4 @@
-import react, { useState } from 'react'
+import react, { useState, useContext, useEffect } from 'react'
 import {
     Card,
     CardContent,
@@ -10,6 +10,10 @@ import {
 import { ShadButton } from '@/components/ui/button'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { IconButton, InputAdornment, TextField, Button } from '@mui/material'
+import { useNavigate } from "react-router-dom"
+import { UserContext } from '../context/global'
+
+const baseURL = import.meta.env.VITE_BACKEND_URL
 
 const LoginCard = () => {
     const [showPassword, setShowPassword] = useState(false)
@@ -17,6 +21,11 @@ const LoginCard = () => {
     const [email, setEmail] = useState('')
     const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
+    const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
+    const { user, setUser } = useContext(UserContext);
 
     const handleEmail = (e) => {
         setEmailError(false)
@@ -32,7 +41,13 @@ const LoginCard = () => {
         setShowPassword(!showPassword)
     }
 
-    const handleLogin = () => {
+    useEffect(() => {
+        if (user.isLoggedIn) {
+            navigate('/')
+        }
+    },  [])
+
+    const handleLogin = async () => {
         setEmailError(false)
         setPasswordError(false)
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -45,6 +60,52 @@ const LoginCard = () => {
         if (password === '') {
             setPasswordError(true)
         }
+
+        try {
+            setLoading(true);
+
+            const response = await fetch(baseURL + '/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            })
+
+            const data = await response.json()
+
+            if (data.success) {
+                console.log('User logged in successfully')
+                localStorage.setItem('userToken', data.accessToken)
+                console.log(data)
+                setUser({
+                    isLoggedIn: true,
+                    email: data.email,
+                    isJobSeeker: data.jobSeeker,
+                    isAdmin: data.admin,
+                    accessToken: data.accessToken,
+                    userData: data.userData
+                })
+
+                
+
+                navigate('/')
+            }
+            else {
+                console.log('User login failed')
+                setEmailError(true)
+                setPasswordError(true)
+            }
+        } catch {
+            
+        }
+    }
+
+    const handleForgotPassword = () => {
+        navigate('/forgot-password')
     }
 
     return (
@@ -130,7 +191,7 @@ const LoginCard = () => {
                 <div className="flex justify-end">
                     <a
                         className="mr-4 underline hover:text-indigo-600"
-                        href="#"
+                        onClick={handleForgotPassword}
                     >
                         Forgot Password{' '}
                     </a>
@@ -147,7 +208,7 @@ const LoginCard = () => {
                         New to WizWork
                         <a
                             className="ml-2 underline text-black hover:text-indigo-600"
-                            href="#"
+                            onClick={() => navigate("/signup")}
                         >
                             Register Here{' '}
                         </a>

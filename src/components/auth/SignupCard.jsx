@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {
     Card,
     CardContent,
@@ -10,6 +10,12 @@ import { Button, TextField, IconButton, InputAdornment } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import Snackbar from '@mui/material/Snackbar';
 import Fade from '@mui/material/Fade';
+import { useNavigate } from "react-router-dom"
+import CircularProgress from '@mui/material/CircularProgress';
+
+import { UserContext } from '../context/global';
+
+const baseURL = import.meta.env.VITE_BACKEND_URL
 
 const SignUpCard = () => {
     const [showPassword, setShowPassword] = useState(false)
@@ -22,6 +28,7 @@ const SignUpCard = () => {
     const [errMsg, setErrMsg] = useState("")
 
     const [showSnackbar, setShowSnackbar] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const [errors, setErrors] = useState({
         firstName: false,
@@ -31,6 +38,10 @@ const SignUpCard = () => {
         password: false,
         confirmPassword: false
     })
+
+    const navigate = useNavigate();
+
+    const {setUser} = useContext(UserContext)
 
     const handleInputChange = (field, value) => {
         setErrors({...errors, [field]: false})
@@ -94,8 +105,9 @@ const SignUpCard = () => {
 
         if (Object.values(tempErrors).every(error => !error)) {
             console.log('Submit form') // Here you would handle the API call or further validation
+            setLoading(true)
             try {
-                const response = await fetch('http://localhost:3000/auth/register', {
+                const response = await fetch(baseURL + '/auth/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -113,23 +125,34 @@ const SignUpCard = () => {
                 console.log(data)
                 if (data.success) {
                     console.log('User signed up successfully')
-                    // Redirect to the login page
+                    setErrMsg("Account created successfully. Please verify your email to login")
+                    setShowSnackbar(true)
+                    setUser({
+                        isLoggedIn: true,
+                        email: data.email,
+                        isJobSeeker: data.jobSeeker,
+                        isAdmin: data.admin,
+                        accessToken: data.accessToken
+                    })
 
+                    navigate('/login');
                 }
                 else {
                     console.error(data.message)
                     setErrMsg(data.message)
-                    showSnackbar(true)
+                    setShowSnackbar(true)
                 }
             } catch (error) {
                 console.error('Error:', error)
                 setErrMsg("An error occurred. Please try again later")
-                showSnackbar(true)
+                setShowSnackbar(true)
             }
         }
         else {
             setShowSnackbar(true)
         }
+
+        setLoading(false)
     }
 
     const handleClickShowPassword = () => {
@@ -221,7 +244,10 @@ const SignUpCard = () => {
             </CardContent>
 
             <CardFooter className="flex justify-center flex-col items-center">
-                <Button fullWidth variant="contained" onClick={validateAndSignUp}>
+                <Button fullWidth variant="contained" onClick={validateAndSignUp} disabled={loading}>
+                    {loading && <CircularProgress size={24} style={{
+                        marginRight: '10px',
+                    }}/>}
                     Sign Up
                 </Button>
             </CardFooter>

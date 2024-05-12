@@ -1,4 +1,4 @@
-import react from "react"
+import react, {useContext , useEffect} from "react"
 import { useState } from "react"
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
@@ -7,18 +7,16 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 
-import Applications from "./Applications";
-import Messages from "./Messages";
-import Profile from "./Profile";
-import Home from "./Home";
-import Companies from "./Companies";
-import Jobs from "./FindJobs";
+import Applicant from "./Applicant";
+import CompanyProfile from "./CompanyProfile";
+import JobListings from "./JobListings";
+import Rhome from "./Rhome";
+import Rmessage from "./Rmessage";
 
-import logo from "../../assets/logo.svg"
+import { UserContext } from "../../context/global";
+import logo from "../../../assets/logo.svg";
 
 const DocBtn = (props) => {
-    console.log("Hellpoooo")
-    //also change the color of the text and icon
 
     const color = props.item.active ? props.item.activeColor : props.item.inactiveColor;
     const side = props.item.active ? props.item.border : "";
@@ -35,7 +33,17 @@ const DocBtn = (props) => {
     )
 }
 
-const SideDoc = () => {
+const Rdashboard = () => {
+
+    const { user } = useContext(UserContext);
+    
+    useEffect(() => {
+        if (!user) {
+            window.location.href = "/login";
+        } else if  (user.isJobSeeker) {
+            window.location.href = "/dashboard";
+        }
+    }, [])
 
     const [docMenu, setDocMenu] = useState([
         {
@@ -45,7 +53,7 @@ const SideDoc = () => {
             activeColor: "text-[#4B45DF]",
             inactiveColor: "text-[#7C8493]",
             border: "border-[#4B45DF]",
-            toShoww: <Home/>
+            toShoww: <Rhome/>
         },
         {
             name: "Messages",
@@ -54,44 +62,44 @@ const SideDoc = () => {
             activeColor: "text-[#4B45DF]",
             inactiveColor: "text-[#7C8493]",
             border: "border-[#4B45DF]",
-            toShoww: <Messages/>
+            toShoww: <Rmessage/>
         },
         {
-            name: "My Applications",
+            name: "Applicant",
             active: false,
             icon: <ArticleOutlinedIcon/>,
             activeColor: "text-[#4B45DF]",
             inactiveColor: "text-[#7C8493]",
             border: "border-[#4B45DF]",
-            toShoww: <Applications/>
+            toShoww: <Applicant/>
         },
         {
-            name: "Find Jobs",
+            name: "Company Profile",
             active: false,
             icon: <SearchOutlinedIcon/>,
             activeColor: "text-[#4B45DF]",
             inactiveColor: "text-[#7C8493]",
             border: "border-[#4B45DF]",
-            toShoww: <Jobs/>
+            toShoww: <CompanyProfile/>
         },
         {
-            name: "Browse Companies",
+            name: "Job Listings",
             active: false,
             icon: <BusinessOutlinedIcon/>,
             activeColor: "text-[#4B45DF]",
             inactiveColor: "text-[#7C8493]",
             border: "border-[#4B45DF]",
-            toShoww: <Companies/>
+            toShoww: <JobListings/>
         },
-        {
-            name: "My Profile",
-            active: false,
-            icon: <PermIdentityOutlinedIcon/>,
-            activeColor: "text-[#4B45DF]",
-            inactiveColor: "text-[#7C8493]",
-            border: "border-[#4B45DF]",
-            toShoww: <Profile/>
-        }
+        // {
+        //     name: "My Profile",
+        //     active: false,
+        //     icon: <PermIdentityOutlinedIcon/>,
+        //     activeColor: "text-[#4B45DF]",
+        //     inactiveColor: "text-[#7C8493]",
+        //     border: "border-[#4B45DF]",
+        //     toShoww: <Profile/>
+        // }
 
     ])
 
@@ -151,4 +159,4 @@ const SideDoc = () => {
     )
 }
 
-export default SideDoc;
+export default Rdashboard;

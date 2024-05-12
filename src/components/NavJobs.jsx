@@ -19,6 +19,14 @@ const NavJobs = (props) => {
         navigate("/");
     }
 
+    const navigateToLogin = () => {
+        navigate("/login");
+    }
+
+    const navigateToSign = () => {
+        navigate("/signup");
+    }
+
     
     return (
         <div className="h-16 flex justify-between z-1000 border px-4 md:px-36">
@@ -38,11 +46,11 @@ const NavJobs = (props) => {
             </div>
 
             <div className="my-auto flex gap-5">
-                <button className="h-10 px-8 rounded-lg rounded font-semibold text-blue-600 hover:bg-sky-50 hover:font-semibold">
+                <button className="h-10 px-8 rounded-lg rounded font-semibold text-blue-600 hover:bg-sky-50 hover:font-semibold" onClick={navigateToLogin}>
                     Login
                 </button>
 
-                <button className="h-10 px-8 border bg-blue-600 text-white border-semibold rounded-lg hover:bg-blue-500">
+                <button className="h-10 px-8 border bg-blue-600 text-white border-semibold rounded-lg hover:bg-blue-500" onClick={navigateToSign}>
                     Sign Up
                 </button>
             </div>

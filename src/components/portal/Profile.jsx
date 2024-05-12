@@ -3,7 +3,49 @@ import react from "react"
 const Profile = () => {
     return (
         <div>
-            <h1>Profile</h1>
+            <div>
+                Profile picture
+            </div>
+
+            <div>
+                <TextField
+                    error={errors.email}
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    fullWidth
+                />
+
+                <TextField
+                    error={errors.email}
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    fullWidth
+                />
+
+                <TextField
+                    error={errors.email}
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    fullWidth
+                />
+
+                <TextField
+                    error={errors.email}
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    fullWidth
+                />
+
+                
+            </div>
         </div>
     )
 }
